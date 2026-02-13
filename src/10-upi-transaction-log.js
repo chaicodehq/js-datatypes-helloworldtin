@@ -47,5 +47,53 @@
  *   //      frequentContact: "Swiggy", allAbove100: false, hasLargeTransaction: true }
  */
 export function analyzeUPITransactions(transactions) {
-  // Your code here
+  if(!Array.isArray(transactions) || transactions.length === 0) return null;
+  transactions = transactions.filter((tran)=>{
+    return tran.amount > 0 && (tran.type === "credit" || tran.type === "debit");
+  });
+
+  if(transactions.length === 0) return null;
+  
+  const totalCredit = transactions.reduce((acc,curr)=>{
+    if(curr.type === "credit") return acc + curr.amount;
+    return acc;
+  },0);
+
+  const totalDebit = transactions.reduce((acc,curr)=>{
+    if(curr.type === "debit") return acc + curr.amount;
+    return acc;  
+  },0);
+
+  const netBalance = totalCredit - totalDebit;
+
+  const transactionCount = transactions.length;
+
+  const avgTransaction = Math.round((totalCredit+totalDebit)/transactionCount);
+
+  const highestTransaction = transactions.reduce((acc,curr)=>{
+    if(curr.amount > (acc.amount? acc.amount: -Infinity)) return curr;
+    return acc;
+  },{});
+
+  const categoryBreakdown = transactions.reduce((acc,curr)=>{
+    acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
+    return acc;
+  },{});
+
+  const frequentContactTemp = transactions.reduce((acc,curr)=>{
+    acc[curr.to] = (acc[curr.to] ||0) + 1;
+    return acc;
+  },{});
+
+  const entries = Object.entries(frequentContactTemp).sort((a,b)=> b[1] - a[1]);
+  console.log(entries);
+  const frequentContact = entries[0][0];
+
+  const allAbove100 = transactions.every(tran => tran.amount > 100);
+  const hasLargeTransaction = transactions.some(tran => tran.amount >= 5000);
+
+  const res = { totalCredit: totalCredit, totalDebit: totalDebit, netBalance: netBalance, transactionCount: transactionCount, avgTransaction: avgTransaction, highestTransaction: highestTransaction, categoryBreakdown: categoryBreakdown, frequentContact: frequentContact, allAbove100: allAbove100, hasLargeTransaction: hasLargeTransaction } ;
+
+  return res;
+
 }
