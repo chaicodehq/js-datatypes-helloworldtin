@@ -71,7 +71,7 @@ export function validateForm(formData) {
     errors.name = "Name must be 2-50 characters";
   }
 
-  if(typeof email !== "string" || email.trim() === "" || !email.includes("@") || email.matchAll("@").toArray().length >1 || !email.includes(".")) errors.email = "Invalid email format";
+  if(typeof email !== "string" || email.trim() === "" || !email.includes("@") || email.split("@").length > 2 || !email.includes(".")) errors.email = "Invalid email format";
 
 
   if(typeof phone !== "string" || phone.trim() === "" || phone.length !== 10 || !Number.isInteger(Number(phone))|| phone.startsWith("0") ||phone.startsWith("1")||phone.startsWith("2")||phone.startsWith("3") || phone.startsWith("4") || phone.startsWith("5") ) errors.phone = "Invalid Indian phone number";
