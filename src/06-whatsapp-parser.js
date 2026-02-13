@@ -79,6 +79,5 @@ export function parseWhatsAppMessage(message) {
     wordCount: word_count,
     sentiment: sentiment,
   };
-  console.log(res);
   return res;
 }

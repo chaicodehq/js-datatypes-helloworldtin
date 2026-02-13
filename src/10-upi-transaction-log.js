@@ -86,7 +86,6 @@ export function analyzeUPITransactions(transactions) {
   },{});
 
   const entries = Object.entries(frequentContactTemp).sort((a,b)=> b[1] - a[1]);
-  console.log(entries);
   const frequentContact = entries[0][0];
 
   const allAbove100 = transactions.every(tran => tran.amount > 100);

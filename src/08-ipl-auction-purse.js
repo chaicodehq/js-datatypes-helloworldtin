@@ -48,9 +48,7 @@ export function iplAuctionSummary(team, players) {
   if(!Object.hasOwn(team,"purse") || team.purse < 0) return null;
   if(!Array.isArray(players) || players.length === 0) return null;
 
-  console.log(players);
   const totalSpent = players.reduce((prevSum, currPlayer)=> prevSum + currPlayer.price,0);
-  console.log(totalSpent);
   const remaining = team.purse - totalSpent;
   const playerCount =  players.length;
 
